@@ -61,72 +61,99 @@ LON = 77.2090
 # ---------------------------------------------------
 
 
-def get_delhi_pollutants():
-
-    url = f"https://api.openweathermap.org/data/2.5/air_pollution?lat={LAT}&lon={LON}&appid={API_KEY}"
-
+def get_waqi_pollutants():
+    """Secondary real-time source: World Air Quality Index API (free demo token)."""
     try:
-
+        url = f"https://api.waqi.info/feed/geo:{LAT};{LON}/?token=demo"
         response = requests.get(url, timeout=10)
         data = response.json()
-        
-        if response.status_code != 200 or "list" not in data:
-            raise ValueError(f"OpenWeather API returned status {response.status_code}: {data.get('message', 'Unknown error')}")
 
-        components = data["list"][0]["components"]
+        if data.get("status") != "ok":
+            return None
 
-        pm25 = components.get("pm2_5", 0)
-        pm10 = components.get("pm10", 0)
-        no2 = components.get("no2", 0)
-        so2 = components.get("so2", 0)
-        o3 = components.get("o3", 0)
-        co = components.get("co", 0)
+        iaqi = data["data"].get("iaqi", {})
+        pm25 = iaqi.get("pm25", {}).get("v", 0)
+        pm10 = iaqi.get("pm10", {}).get("v", 0)
+        no2  = iaqi.get("no2",  {}).get("v", 0)
+        so2  = iaqi.get("so2",  {}).get("v", 0)
+        o3   = iaqi.get("o3",   {}).get("v", 0)
+        co   = iaqi.get("co",   {}).get("v", 0) * 100  # WAQI co is in ppm*100
 
         pm_ratio = pm25 / pm10 if pm10 != 0 else 0
 
         return {
-            "pm2.5": pm25,
-            "pm10": pm10,
-            "no": 0,
-            "no2": no2,
-            "nox": no2,
-            "nh3": 0,
-            "co": co,
-            "so2": so2,
-            "o3": o3,
-            "benzene": 0,
-            "toluene": 0,
+            "pm2.5": float(pm25),
+            "pm10":  float(pm10),
+            "no":    0,
+            "no2":   float(no2),
+            "nox":   float(no2),
+            "nh3":   0,
+            "co":    float(co),
+            "so2":   float(so2),
+            "o3":    float(o3),
+            "benzene":  0,
+            "toluene":  0,
             "pm_ratio": pm_ratio,
-            "nox_total": no2,
-            "is_simulated": False
+            "nox_total": float(no2),
+            "is_simulated": False,
+        }
+    except Exception as e:
+        print(f"WAQI fallback error: {e}")
+        return None
+
+
+def get_delhi_pollutants():
+
+    # --- Primary: OpenWeather API ---
+    url = f"https://api.openweathermap.org/data/2.5/air_pollution?lat={LAT}&lon={LON}&appid={API_KEY}"
+
+    try:
+        response = requests.get(url, timeout=10)
+        data = response.json()
+
+        if response.status_code != 200 or "list" not in data:
+            raise ValueError(f"OpenWeather API returned status {response.status_code}: {data.get('message', 'Unknown error')}")
+
+        components = data["list"][0]["components"]
+        pm25 = components.get("pm2_5", 0)
+        pm10 = components.get("pm10", 0)
+        no2  = components.get("no2", 0)
+        so2  = components.get("so2", 0)
+        o3   = components.get("o3", 0)
+        co   = components.get("co", 0)
+        pm_ratio = pm25 / pm10 if pm10 != 0 else 0
+
+        return {
+            "pm2.5": pm25, "pm10": pm10, "no": 0, "no2": no2,
+            "nox": no2, "nh3": 0, "co": co, "so2": so2, "o3": o3,
+            "benzene": 0, "toluene": 0, "pm_ratio": pm_ratio,
+            "nox_total": no2, "is_simulated": False,
         }
 
     except Exception as e:
-        print(f"OpenWeather API Error: {e}. Falling back to simulated/dummy Delhi pollutants for UI demonstration.")
-        # Representative simulated air quality values for Delhi
-        pm25 = 145.5
-        pm10 = 230.2
-        no2 = 38.4
-        so2 = 12.1
-        o3 = 58.7
-        co = 1150.0
-        pm_ratio = pm25 / pm10
-        return {
-            "pm2.5": pm25,
-            "pm10": pm10,
-            "no": 0,
-            "no2": no2,
-            "nox": no2,
-            "nh3": 0,
-            "co": co,
-            "so2": so2,
-            "o3": o3,
-            "benzene": 0,
-            "toluene": 0,
-            "pm_ratio": pm_ratio,
-            "nox_total": no2,
-            "is_simulated": True
-        }
+        print(f"OpenWeather API Error: {e}. Trying WAQI fallback...")
+
+    # --- Secondary: WAQI real-time API ---
+    waqi_data = get_waqi_pollutants()
+    if waqi_data:
+        print("Using WAQI real-time data for Delhi.")
+        return waqi_data
+
+    # --- Last resort: Simulated representative Delhi values ---
+    print("Both APIs failed. Using simulated Delhi AQI data.")
+    pm25 = 145.5
+    pm10 = 230.2
+    no2  = 38.4
+    so2  = 12.1
+    o3   = 58.7
+    co   = 1150.0
+    pm_ratio = pm25 / pm10
+    return {
+        "pm2.5": pm25, "pm10": pm10, "no": 0, "no2": no2,
+        "nox": no2, "nh3": 0, "co": co, "so2": so2, "o3": o3,
+        "benzene": 0, "toluene": 0, "pm_ratio": pm_ratio,
+        "nox_total": no2, "is_simulated": True,
+    }
 
 
 # ---------------------------------------------------
