@@ -1,0 +1,303 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+/* ================= HEADER ================= */
+
+.main-header {
+    width: 100%;
+    background: #1d3557;
+    padding: 18px 0;
+}
+
+.header-container {
+    width: 90%;
+    max-width: 1200px;
+    margin: auto;
+    display: flex;
+    align-items: center;
+}
+
+.logo {
+    color: #f1faee;
+    font-size: 22px;
+}
+
+/* ================= PAGE BACKGROUND ================= */
+
+.register-section {
+    min-height: 90vh;
+
+    background:
+        linear-gradient(rgba(29, 53, 87, 0.75), rgba(29, 53, 87, 0.75)),
+        url("../image/sky.jpeg");
+
+    background-size: cover;
+    background-position: center;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* ================= CARD ================= */
+
+.register-card {
+    width: 480px;
+    /* 🔥 increased width */
+    padding: 45px;
+    border-radius: 20px;
+
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(15px);
+
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+    text-align: center;
+}
+
+.register-card h2 {
+    color: #f1faee;
+    margin-bottom: 25px;
+}
+
+/* ================= INPUT ================= */
+
+.register-card input {
+    width: 100%;
+    height: 45px;
+    margin-bottom: 15px;
+    padding: 0 15px;
+
+    border: none;
+    border-radius: 8px;
+
+    background: #f1faee;
+    font-size: 14px;
+}
+
+.register-card input:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px #a8dadc;
+}
+
+/* ================= LABEL ================= */
+
+.register-card label {
+    display: block;
+    text-align: left;
+    margin-top: 10px;
+    margin-bottom: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #f1faee;
+}
+
+/* ================= EMAIL BOX ================= */
+
+.email-box {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 15px;
+}
+
+.email-box input {
+    flex: 1;
+}
+
+/* ================= BUTTON ================= */
+
+.verify-btn {
+    height: 45px;
+    padding: 0 15px;
+
+    border: none;
+    border-radius: 8px;
+
+    font-size: 14px;
+    font-weight: 600;
+    color: white;
+
+    background: linear-gradient(90deg, #457b9d, #1d3557);
+    cursor: pointer;
+}
+
+/* REGISTER BUTTON */
+
+.register-btn {
+    width: 100%;
+    height: 45px;
+
+    border: none;
+    border-radius: 30px;
+
+    font-size: 15px;
+    font-weight: 600;
+    color: white;
+
+    background: linear-gradient(90deg, #457b9d, #1d3557);
+
+    cursor: pointer;
+    transition: 0.3s;
+    margin-top: 15px;
+}
+
+.register-btn:hover {
+    transform: scale(1.03);
+}
+
+/* ================= OTP ================= */
+
+.otp-box {
+    display: none;
+    margin-top: 10px;
+}
+
+.otp-submit,
+#resendBtn {
+    width: 100%;
+    height: 45px;
+
+    border: none;
+    border-radius: 30px;
+
+    font-size: 15px;
+    font-weight: 600;
+    color: white;
+
+    background: linear-gradient(90deg, #457b9d, #1d3557);
+
+    cursor: pointer;
+    transition: 0.3s;
+    margin-bottom: 15px;
+}
+
+#timerText {
+    color: #f1faee;
+    font-size: 13px;
+    margin-bottom: 10px;
+}
+
+#resendBtn:disabled {
+    background: #cccccc;
+    cursor: not-allowed;
+}
+
+.verified {
+    background: #28a745 !important;
+}
+
+.status-text {
+    color: #f1faee;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+/* ================= AGE DROPDOWN ================= */
+
+.register-card select {
+    width: 100%;
+    height: 45px;
+    padding: 0 12px;
+
+    border: none;
+    border-radius: 8px;
+
+    background: #f1faee;
+    font-size: 14px;
+
+    margin-bottom: 10px;
+    outline: none;
+    cursor: pointer;
+}
+
+.register-card select:focus {
+    box-shadow: 0 0 0 2px #a8dadc;
+}
+
+/* ================= DISEASE TAGS (HORIZONTAL FIX) ================= */
+
+.disease-tags {
+    display: flex;
+    flex-wrap: nowrap;
+    /* 🔥 force single line */
+    justify-content: space-between;
+    gap: 10px;
+
+    margin-top: 10px;
+    margin-bottom: 15px;
+}
+
+/* tag default */
+.tag {
+    flex: 1;
+    /* 🔥 equal width */
+
+    padding: 10px 0;
+    text-align: center;
+
+    border-radius: 30px;
+
+    background: rgba(255, 255, 255, 0.25);
+    backdrop-filter: blur(10px);
+
+    color: #f1faee;
+    font-size: 13px;
+    font-weight: 500;
+
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+/* hover */
+.tag:hover {
+    background: rgba(255, 255, 255, 0.4);
+    transform: translateY(-2px);
+}
+
+/* selected */
+.tag.active {
+    background: linear-gradient(90deg, #457b9d, #1d3557);
+    color: #fff;
+    border: none;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* ================= HINT ================= */
+
+.hint-text {
+    display: block;
+    margin-top: 5px;
+    margin-bottom: 10px;
+
+    font-size: 12px;
+    color: #f1faee;
+    text-align: left;
+}
+
+/* ================= LOGIN ================= */
+
+.login-link {
+    margin-top: 15px;
+    color: #f1faee;
+}
+
+.login-link a {
+    color: #a8dadc;
+    text-decoration: none;
+}
+
+/* ================= FOOTER ================= */
+
+.footer {
+    background: #1d3557;
+    color: #f1faee;
+    text-align: center;
+    padding: 18px;
+    font-size: 14px;
+    margin-top: auto;
+}

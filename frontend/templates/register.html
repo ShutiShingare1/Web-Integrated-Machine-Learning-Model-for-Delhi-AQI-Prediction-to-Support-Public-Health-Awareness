@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<title>Delhi AQI Forecasting | Register</title>
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/register.css') }}">
+
+</head>
+
+<body>
+
+<header class="main-header">
+<div class="header-container">
+<h2 class="logo">Delhi AQI Forecasting</h2>
+</div>
+</header>
+
+<section class="register-section">
+
+<div class="register-card">
+
+<h2>Create Account</h2>
+
+{% if db_offline %}
+<div style="background-color: #d35400; color: #fff; text-align: center; padding: 10px; border-radius: 4px; margin-bottom: 20px; font-size: 13px; font-weight: bold; font-family: sans-serif;">
+    <i class="fa fa-info-circle"></i> Note: Database is offline. Registration will run in offline demo mode (no email OTP verification required).
+</div>
+{% endif %}
+
+<form method="POST" action="/register">
+
+<input type="text" name="username" placeholder="Username" required
+pattern="^[A-Za-z0-9_]{4,15}$">
+
+<div class="email-box">
+
+<input type="email" id="email" name="email" placeholder="Email Address" required>
+
+{% if not db_offline %}
+<button type="button" class="verify-btn" id="verifyBtn" onclick="sendOTP()">
+Verify
+</button>
+{% else %}
+<button type="button" class="verify-btn" style="background-color: #27ae60; cursor: default;" disabled>
+Verified
+</button>
+{% endif %}
+
+</div>
+
+<p id="emailStatus" class="status-text"></p>
+
+<!-- OTP BOX -->
+<div class="otp-box" id="otpBox">
+
+<input type="text" id="otp" placeholder="Enter 6 Digit OTP" maxlength="6">
+
+<button type="button" class="otp-submit" onclick="verifyOTP()">
+Submit OTP
+</button>
+
+<p id="timerText"></p>
+
+<button type="button" class="verify-btn" id="resendBtn" onclick="sendOTP()" disabled>
+Resend OTP
+</button>
+
+</div>
+
+<input type="password" name="password" placeholder="Password" required
+pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!]).{8,}">
+
+<input type="password" name="confirm_password" placeholder="Confirm Password" required>
+<!-- AGE GROUP -->
+<label>Select Age Group</label>
+<select name="age_group" required>
+    <option value="">Select Age Group</option>
+    <option value="children">Children</option>
+    <option value="adult">Adult</option>
+    <option value="elderly">Elderly</option>
+</select>
+
+<!-- DISEASES -->
+<!-- DISEASES DROPDOWN -->
+<label>Select Existing Conditions</label>
+
+<div class="disease-tags">
+
+    <span class="tag" onclick="toggleTag(this)">Asthma</span>
+    <span class="tag" onclick="toggleTag(this)">Heart Disease</span>
+    <span class="tag" onclick="toggleTag(this)">Allergy</span>
+    <span class="tag" onclick="toggleTag(this)">None</span>
+
+</div>
+
+<!-- Hidden input to send data -->
+<input type="hidden" name="diseases" id="diseaseInput">
+
+<button type="submit" class="register-btn" id="registerBtn" {% if not db_offline %}disabled{% endif %}>
+Register
+</button>
+
+</form>
+
+<p class="login-link">
+Already have account? <a href="/login">Login</a>
+</p>
+
+</div>
+</section>
+
+<footer class="footer">
+    Made By Shweta, Shruti, & Shivani.
+</footer>
+
+<script src="{{ url_for('static', filename='js/register.js') }}"></script>
+
+</body>
+</html>

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<title>Profile | Delhi AQI Forecasting</title>
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/profile.css') }}">
+
+</head>
+
+<body>
+
+<header class="main-header">
+    <div class="header-container">
+        <h2 class="logo">Delhi AQI Forecasting</h2>
+        <a href="/" class="header-back">Back</a>
+    </div>
+</header>
+
+<section class="profile-section">
+
+<div class="profile-card">
+
+<h2>Your Profile</h2>
+
+<form method="POST" action="/update_profile" id="profileForm">
+
+<!-- USERNAME -->
+<div class="info-box">
+<label>Username</label>
+<p>{{ username }}</p>
+</div>
+
+<!-- EMAIL -->
+<div class="info-box">
+<label>Email</label>
+<p>{{ email }}</p>
+</div>
+
+<!-- AGE GROUP -->
+<div class="info-box">
+<label>Age Group</label>
+
+<select name="age_group" id="ageGroup" disabled>
+    <option value="children" {% if age_group=="children" %}selected{% endif %}>Children</option>
+    <option value="adult" {% if age_group=="adult" %}selected{% endif %}>Adult</option>
+    <option value="elderly" {% if age_group=="elderly" %}selected{% endif %}>Elderly</option>
+</select>
+
+</div>
+
+<!-- DISEASES -->
+<div class="info-box">
+<label>Health Conditions</label>
+
+<div class="disease-tags">
+
+{% set user_diseases = diseases.split(',') if diseases else [] %}
+
+<label class="tag">
+<input type="checkbox" name="diseases" value="asthma"
+{% if 'asthma' in user_diseases %}checked{% endif %} disabled>
+<span>Asthma</span>
+</label>
+
+<label class="tag">
+<input type="checkbox" name="diseases" value="heart disease"
+{% if 'heart disease' in user_diseases %}checked{% endif %} disabled>
+<span>Heart Disease</span>
+</label>
+
+<label class="tag">
+<input type="checkbox" name="diseases" value="allergy"
+{% if 'allergy' in user_diseases %}checked{% endif %} disabled>
+<span>Allergy</span>
+</label>
+
+<label class="tag">
+<input type="checkbox" name="diseases" value="None"
+{% if 'None' in user_diseases %}checked{% endif %} disabled>
+<span>None</span>
+</label>
+
+</div>
+
+</div>
+
+<!-- BUTTONS -->
+<button type="button" class="edit-btn" id="editBtn">Edit</button>
+<button type="submit" class="save-btn" id="saveBtn" style="display:none;">Save</button>
+</form>
+</div>
+
+</section>
+
+<script defer src="{{ url_for('static', filename='js/profile.js') }}"></script>
+
+<footer class="footer">
+    Made By Shweta, Shruti, & Shivani.
+</footer>
+
+</body>
+</html>

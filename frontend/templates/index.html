@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Delhi AQI Forecasting</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+
+<body>
+
+
+
+<!-- ================= HEADER ================= -->
+<header class="main-header">
+    <div class="header-container">
+        <h2 class="logo">Delhi AQI Forecasting</h2>
+
+        <div class="nav-right">
+
+{% if session.get("username") %}
+
+<div class="user-menu">
+
+<div class="user-btn" onclick="toggleMenu()">
+<i class="fa fa-user"></i>
+{{ session["username"] }}
+<i class="fa fa-caret-down"></i>
+</div>
+
+<div class="dropdown" id="userDropdown">
+    <a href="/profile">Profile</a>
+<a href="/logout">Logout</a>
+
+</div>
+
+</div>
+
+{% else %}
+
+<a href="/login" class="login-btn">Login</a>
+
+{% endif %}
+
+</div>
+
+    </div>
+</header>
+
+
+<!-- ================= HERO SECTION ================= -->
+<section class="hero-banner">
+
+    <div class="hero-content">
+        <h1>Delhi Air Quality</h1>
+        <p>Real-time AQI Prediction</p>
+
+        {% if prediction is not none %}
+        <div class="aqi-container {{ category_class }}">
+
+            <div class="top-section">
+                <div class="left">
+                    <div class="live">
+                        <span class="live-dot"></span>
+                        Live AQI
+                    </div>
+
+                    <div class="aqi-big">
+                        {{ prediction }}
+                        <span class="unit">AQI (US)</span>
+                    </div>
+                </div>
+
+                <div class="right">
+                    <p>Air Quality is</p>
+                    <div class="status-box">
+                        {{ category_text }}
+                    </div>
+                </div>
+            </div>
+
+            <div class="scale-container">
+                <div class="scale-bar">
+                    <div class="indicator"
+                         style="left: {{ indicator_position }}%;">
+                    </div>
+                </div>
+
+                <div class="scale-labels">
+                    <span>Good</span>
+                    <span>Moderate</span>
+                    <span>Poor</span>
+                    <span>Unhealthy</span>
+                    <span>Severe</span>
+                    <span>Hazardous</span>
+                </div>
+            </div>
+
+        </div>
+        {% else %}
+        <div class="aqi-container">
+            <h2 style="text-align:center;">Prediction not available</h2>
+        </div>
+        {% endif %}
+    </div>
+
+</section>
+
+<!-- ================= POLLUTANT SECTION ================= -->
+<section class="pollutant-section">
+
+    <h2 class="pollutant-title">Live Air Pollutants</h2>
+
+    <div class="pollutant-container">
+
+        <div class="pollutant-card">
+            <h3>PM2.5</h3>
+            <p>{{ pollutants.pm25 }}</p>
+            <span>µg/m³</span>
+        </div>
+
+        <div class="pollutant-card">
+            <h3>PM10</h3>
+            <p>{{ pollutants.pm10 }}</p>
+            <span>µg/m³</span>
+        </div>
+
+        <div class="pollutant-card">
+            <h3>NO₂</h3>
+            <p>{{ pollutants.no2 }}</p>
+            <span>µg/m³</span>
+        </div>
+
+        <div class="pollutant-card">
+            <h3>CO</h3>
+            <p>{{ pollutants.co }}</p>
+            <span>µg/m³</span>
+        </div>
+
+        <div class="pollutant-card">
+            <h3>SO₂</h3>
+            <p>{{ pollutants.so2 }}</p>
+            <span>µg/m³</span>
+        </div>
+
+        <div class="pollutant-card">
+            <h3>O₃</h3>
+            <p>{{ pollutants.o3 }}</p>
+            <span>µg/m³</span>
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= bar graph ================= -->
+<section class="info-banner">
+    <div class="info-content">
+        <h2>Historical Air Quality Data</h2>
+        <h4>Delhi</h4>
+    </div>
+
+    <div class="aqi-graph-container">
+
+    <div class="aqi-controls">
+        <select id="mode">
+            <option value="day">One Day</option>
+            <option value="week">One Week</option>
+        </select>
+
+        <input type="date" id="datePicker" max="">
+    </div>
+
+    <div class="aqi-chart-wrapper">
+        <canvas id="aqiChart"></canvas>
+    </div>
+
+</div>
+    </section>
+
+<section class="calendar-section">
+    <h2 id="calendarTitle">Air Quality Calendar</h2>
+        <h5 id="calendar-Title">Delhi</h5>
+    <div class="calendar-container">
+
+    <div class="calendar-header">
+
+        <div class="calendar-nav">
+            <button onclick="changeMonth(-1)">←</button>
+            <span id="monthYear"></span>
+            <button onclick="changeMonth(1)">→</button>
+        </div>
+    </div>
+
+    <div id="calendar"></div>
+
+</div>
+    </section>
+
+
+<!-- ================= HEALTH ADVICE SECTION ================= -->
+
+<section class="health-sec">
+<div class="health-section">
+    <h2 class="health-title">
+        Health Advice For People Living In <br>
+        <span>Delhi</span>
+    </h2>
+
+    <!-- CIGARETTE CARD -->
+    <div class="health-card">
+
+        <div class="cigarette-left">
+            <div class="cig-number">{{ cig_day }}</div>
+            <div class="cig-text">Cigarettes <br> per day</div>
+        </div>
+
+        <div class="cigarette-right">
+            <div class="cig-box">
+                <p>Weekly</p>
+                <h3>{{ cig_week }} Cigarettes</h3>
+            </div>
+
+            <div class="cig-box">
+                <p>Monthly</p>
+                <h3>{{ cig_month }} Cigarettes</h3>
+            </div>
+        </div>
+
+    </div>
+
+    <p class="health-message">
+        Breathing the air in this location is as harmful as smoking
+        <b>{{ cig_day }}</b> cigarettes a day.
+    </p>
+
+    <!-- SOLUTIONS -->
+    <div class="aqi-recommendations">
+
+    <h3 class="solutions-title">Solutions for Current AQI</h3>
+
+    <div class="solutions">
+        {% for r in recommendations %}
+        <div class="solution-card {{ r.type }}">
+            <i class="fa-solid {{ r.icon }}"></i>
+            <p>{{ r.text }}</p>
+            <span>{{ r.type }}</span>
+        </div>
+        {% endfor %}
+    </div>
+
+</div>
+
+    <!-- RISK SECTION -->
+    <div class="risk-section">
+
+    <h3>Prevent Health Problems: Understand Your Risks</h3>
+
+    <!-- TABS -->
+    <div class="risk-tabs">
+        <button class="tab active" onclick="showDisease('asthma')">Asthma</button>
+        <button class="tab" onclick="showDisease('heart')">Heart Issues</button>
+        <button class="tab" onclick="showDisease('allergy')">Allergies</button>
+    </div>
+
+    <!-- ASTHMA -->
+    <div class="risk-card disease active" id="asthma">
+
+        <div class="risk-left">
+            <img src="{{ url_for('static', filename='image/asthama.jpg') }}">
+            <p class="badge">High Chances of Asthma</p>
+        </div>
+
+        <div class="risk-right">
+            <h3>Asthma</h3>
+            <p class="risk-text">
+                Risk of asthma symptoms is <strong>High</strong> when AQI is severe.
+            </p>
+
+            <div class="dos-donts">
+                <div class="dos">
+                    <h5>Do's</h5>
+                    <ul>
+                        <li>Stay indoors</li>
+                        <li>Use air purifier</li>
+                        <li>Wear mask</li>
+                    </ul>
+                </div>
+
+                <div class="donts">
+                    <h5>Don'ts</h5>
+                    <ul>
+                        <li>Avoid outdoor exercise</li>
+                        <li>Do not smoke</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- HEART -->
+    <div class="risk-card disease" id="heart">
+
+        <div class="risk-left">
+            <img src="{{ url_for('static', filename='image/heart_issue.jpg') }}">
+            <p class="badge">High Heart Risk</p>
+        </div>
+
+        <div class="risk-right">
+            <h3>Heart Issues</h3>
+            <p class="risk-text">
+                Air pollution increases risk of <strong>heart attacks and stroke</strong>.
+            </p>
+
+            <div class="dos-donts">
+                <div class="dos">
+                    <h5>Do's</h5>
+                    <ul>
+                        <li>Stay indoors</li>
+                        <li>Use air purifier</li>
+                        <li>Keep medications ready</li>
+                    </ul>
+                </div>
+
+                <div class="donts">
+                    <h5>Don'ts</h5>
+                    <ul>
+                        <li>Avoid heavy exercise</li>
+                        <li>Avoid polluted areas</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- ALLERGY -->
+    <div class="risk-card disease" id="allergy">
+
+        <div class="risk-left">
+            <img src="{{ url_for('static', filename='image/allergies.jpg') }}">
+            <p class="badge">High Allergy Risk</p>
+        </div>
+
+        <div class="risk-right">
+            <h3>Allergies</h3>
+            <p class="risk-text">
+                Pollution can trigger <strong>sneezing, irritation, and skin allergies</strong>.
+            </p>
+
+            <div class="dos-donts">
+                <div class="dos">
+                    <h5>Do's</h5>
+                    <ul>
+                        <li>Wear mask outdoors</li>
+                        <li>Keep windows closed</li>
+                        <li>Use air purifier</li>
+                    </ul>
+                </div>
+
+                <div class="donts">
+                    <h5>Don'ts</h5>
+                    <ul>
+                        <li>Avoid dust exposure</li>
+                        <li>Do not ignore symptoms</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+</div>
+</section>
+
+<!-- ================= FOOTER ================= -->
+<footer class="footer">
+    Made By Shweta, Shruti, & Shivani.
+</footer>
+
+<script src="{{ url_for('static', filename='js/index.js') }}"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</body>
+</html>

@@ -1,0 +1,172 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+/* ================= HEADER ================= */
+
+.main-header {
+    width: 100%;
+    background: #1d3557;
+    padding: 18px 0;
+}
+
+.header-container {
+    width: 90%;
+    max-width: 1200px;
+    margin: auto;
+    display: flex;
+    align-items: center;
+}
+
+.logo {
+    color: #f1faee;
+    font-size: 22px;
+}
+
+/* ================= PAGE BACKGROUND ================= */
+
+.forgot-section {
+
+    min-height: 90vh;
+
+    background:
+        linear-gradient(rgba(29, 53, 87, 0.75), rgba(29, 53, 87, 0.75)),
+        url("../image/sky.jpeg");
+
+    background-size: cover;
+    background-position: center;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+/* ================= CARD ================= */
+
+.forgot-card {
+
+    width: 380px;
+    padding: 45px;
+
+    border-radius: 20px;
+
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(15px);
+
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+
+    text-align: center;
+
+}
+
+.forgot-card h2 {
+    color: #f1faee;
+    margin-bottom: 25px;
+}
+
+/* ================= INPUT ================= */
+
+.forgot-card input {
+
+    width: 100%;
+    height: 45px;
+
+    margin-bottom: 15px;
+
+    padding: 0 15px;
+
+    border: none;
+    border-radius: 8px;
+
+    background: #f1faee;
+    font-size: 14px;
+
+}
+
+/* INPUT FOCUS */
+
+.forgot-card input:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px #a8dadc;
+}
+
+/* ================= BUTTON ================= */
+
+.main-btn {
+
+    width: 100%;
+    height: 45px;
+
+    border: none;
+    border-radius: 30px;
+
+    font-size: 15px;
+    font-weight: 600;
+
+    color: white;
+
+    background: linear-gradient(90deg, #457b9d, #1d3557);
+
+    cursor: pointer;
+
+    transition: 0.3s;
+
+    margin-bottom: 15px;
+}
+
+.main-btn:hover {
+    transform: scale(1.03);
+}
+
+/* ================= OTP BOX ================= */
+
+.otp-box {
+    display: none;
+    margin-top: 10px;
+}
+
+/* RESEND BUTTON */
+#timerText {
+    color: #f1faee;
+    font-size: 13px;
+    margin-bottom: 10px;
+}
+
+.resend-btn {
+    width: 100%;
+    height: 40px;
+    border: none;
+    border-radius: 25px;
+    background: #a8dadc;
+    color: #1d3557;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.resend-btn:disabled {
+    background: #cccccc;
+    cursor: not-allowed;
+}
+
+/* ================= STATUS TEXT ================= */
+
+.status-text {
+    color: #f1faee;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+/* ================= FOOTER ================= */
+
+.footer {
+    background: #1d3557;
+    color: #f1faee;
+    text-align: center;
+    padding: 18px;
+    font-size: 14px;
+    margin-top: auto;
+}

@@ -1,0 +1,225 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+/* ================= HEADER ================= */
+
+.main-header {
+    width: 100%;
+    background: #1d3557;
+    padding: 18px 0;
+}
+
+.header-container {
+    width: 90%;
+    max-width: 1200px;
+    margin: auto;
+    display: flex;
+    align-items: center;
+}
+
+.logo {
+    color: #f1faee;
+    font-size: 22px;
+}
+
+/* Move title to left */
+.logo {
+    margin-right: auto;
+}
+
+/* Back button on right */
+.header-back {
+    margin-left: auto;
+
+    font-size: 16px;
+    text-decoration: none;
+
+    color: #f1faee;
+    background: rgba(255, 255, 255, 0.15);
+
+    padding: 6px 14px;
+    border-radius: 8px;
+
+    backdrop-filter: blur(6px);
+
+    transition: all 0.3s ease;
+}
+
+/* Hover */
+.header-back:hover {
+    background: rgba(255, 255, 255, 0.3);
+    color: #ffffff;
+}
+
+/* ================= PAGE BACKGROUND ================= */
+
+.profile-section {
+    min-height: 90vh;
+
+    background:
+        linear-gradient(rgba(29, 53, 87, 0.75), rgba(29, 53, 87, 0.75)),
+        url("../image/sky.jpeg");
+
+    background-size: cover;
+    background-position: center;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* ================= CARD ================= */
+
+.profile-card {
+    width: 480px;
+    padding: 45px;
+
+    border-radius: 20px;
+
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(15px);
+
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+
+    text-align: center;
+    color: #f1faee;
+}
+
+.profile-card h2 {
+    margin-bottom: 20px;
+}
+
+/* ================= INFO ================= */
+
+.info-box {
+    text-align: left;
+    margin-bottom: 18px;
+}
+
+.info-box label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 600;
+    font-size: 14px;
+    color: #f1faee;
+}
+
+.info-box p {
+    background: #f1faee;
+    color: #333;
+    padding: 10px;
+    border-radius: 8px;
+    font-size: 14px;
+}
+
+/* ================= SELECT ================= */
+
+select {
+    width: 100%;
+    height: 45px;
+    border-radius: 8px;
+    border: none;
+    padding: 10px;
+    font-size: 14px;
+    outline: none;
+}
+
+select:focus {
+    box-shadow: 0 0 0 2px #a8dadc;
+}
+
+/* ================= DISEASE TAGS ================= */
+
+.disease-tags {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 8px;
+}
+
+/* tag default */
+.tag {
+    padding: 8px 14px;
+    border-radius: 20px;
+
+    background: rgba(255, 255, 255, 0.25);
+    backdrop-filter: blur(10px);
+
+    color: #f1faee;
+    font-size: 13px;
+
+    cursor: pointer;
+    transition: 0.3s;
+
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+/* hide checkbox */
+.tag input {
+    display: none;
+}
+
+/* hover */
+.tag:hover {
+    background: rgba(255, 255, 255, 0.4);
+}
+
+/* selected state */
+.tag input:checked+span {
+    color: #fff;
+}
+
+.tag input:checked+span::before {
+    content: "✓ ";
+}
+
+/* 🔥 highlight full tag when selected */
+.tag input:checked~span,
+.tag input:checked {}
+
+.tag:has(input:checked) {
+    background: linear-gradient(90deg, #457b9d, #1d3557);
+    border: none;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* ================= BUTTONS ================= */
+
+.edit-btn,
+.save-btn {
+    width: 100%;
+    height: 45px;
+
+    margin-top: 10px;
+
+    border: none;
+    border-radius: 30px;
+
+    font-size: 15px;
+    font-weight: 600;
+
+    background: linear-gradient(90deg, #457b9d, #1d3557);
+    color: white;
+
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.edit-btn:hover,
+.save-btn:hover {
+    transform: scale(1.03);
+}
+
+/* ================= FOOTER ================= */
+
+.footer {
+    background: #1d3557;
+    color: #f1faee;
+    text-align: center;
+    padding: 18px;
+    font-size: 14px;
+}
